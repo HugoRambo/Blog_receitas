@@ -19,7 +19,7 @@ const Login = () => {
   const [error, setError] = useState("")
 
   //Trago do meu useAuthentication algumas informações, visto que já tem um erro de front, eu renomei para erro de back
-  const {createUser, error: authError, loading}= useAuthentication()
+  const {login, error: authError, loading}= useAuthentication()
 
 
 
@@ -38,7 +38,7 @@ const Login = () => {
   
 
   //Espero a resposta do firebase
-  const res = await createUser(user)
+  const res = await login(user)
 
 
   console.log(res)

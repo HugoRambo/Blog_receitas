@@ -75,6 +75,29 @@ export const useAuthentication = () =>{
         //chamo a função signout e passo a autenticação nela
         signOut(auth)
     }
+    //login -entrar
+    const login = async(data) =>{
+        checkIfIsCancelled()
+        setLoading(true)
+        setError(false)
+        try {
+            //Verificaçao dos dados.
+            await signInWithEmailAndPassword(auth, data.email, data.password)
+            setLoading(false)
+        }catch (error){
+            let systemErrorMessage
+            if(error.message.includes("user-not-found")){
+                systemErrorMessage = "Usuário não encontrando."   
+            }else if(error.message.includes("wrong-password")){
+                systemErrorMessage ="Senha incorreta"
+            }else {
+                systemErrorMessage ="Ocorreu um erro, por favor tente mais tarde."
+            }
+        setError(systemErrorMessage)
+        setLoading(false)
+        }
+
+    }
 
 
 
@@ -90,5 +113,6 @@ export const useAuthentication = () =>{
         error,
         loading,
         logout,
+        login,
     }
 }
