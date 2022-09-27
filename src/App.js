@@ -58,10 +58,11 @@ function App() {
             <Routes>
               <Route path='/' element={<Home/>}></Route>
               <Route path= '/about' element={<About/>}></Route>
-              <Route path= '/login' element={<Login/>}></Route>
-              <Route path= '/register' element={<Register/>}></Route>
-              <Route  path= '/post/create' element={<CreatePost/>}></Route>
-              <Route path= 'dashboard' element={<Dashboard/>}></Route>
+              {/*uso uma condicional para testar se usuário existe, caso não tenha, mando para tela inicial */ }
+              <Route path= '/login' element={!user ? <Login/>: <Navigate to="/"/> }></Route>
+              <Route path= '/register' element={!user ? <Register/>: <Navigate to="/"/> }></Route>
+              <Route  path= '/post/create' element={user ? <CreatePost/>: <Navigate to="login"/>}></Route>
+              <Route path= 'dashboard' element={user ? <Dashboard/>: <Navigate to="login"/>}></Route>
             </Routes>
         </div>
         <Footer/>
