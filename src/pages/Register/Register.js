@@ -1,6 +1,8 @@
 
 import styles from './Register.module.css'
 import {  useState, useEffect} from "react"
+import { AuthErrorCodes } from 'firebase/auth'
+import { useAuthentication } from '../../hooks/useAuthentication'
 
 
 const Register = () => {
@@ -19,9 +21,15 @@ const Register = () => {
   //Verificação de algum erro 
   const [error, setError] = useState("")
 
+  //Trago do meu useAuthentication algumas informações, visto que já tem um erro de front, eu renomei para erro de back
+  const {createUser, error: authError, loading}= useAuthentication()
+
+
+
+
   //Botao de validar todos dados em formulário
   // (e) é para nao enviar formulário
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
   //Quando envio formulário eu apago os erros. 
@@ -35,9 +43,19 @@ const Register = () => {
     setError("As senhas precisam ser iguais")
     return
   }
-  console.log(user)
-  }
 
+  //Espero a resposta do firebase
+  const res = await createUser(user)
+
+
+  console.log(res)
+  }
+  //Criar um useEffect aqui que valida qual tipo de erro é e cham o do hook 
+  useEffect(() => {
+    if(authError){
+      setError(authError)
+    }
+  }, [authError])
   return (
     <div className={styles.register}>
         <h1>Cadastra-se para postar</h1>
@@ -82,8 +100,9 @@ const Register = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}/>
           </label>
-          <button className='btn'>Cadastrar</button>
           {/*colocar mensagem de erro abaixo do  botao*/ }
+          {!loading && <button className="btn">Cadastrar</button>}
+          {loading && <button className="btn" disabled>Aguarde</button>}
           {error && <p className="error"> {error}</p>}
 
         </form>
