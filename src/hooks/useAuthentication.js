@@ -27,6 +27,7 @@ export const useAuthentication = () =>{
             return
         }
     }
+    //Registro 
     const createUser = async (data) =>{
         checkIfIsCancelled()
         // se não tiver cancelado, eu torno ela true
@@ -66,7 +67,17 @@ export const useAuthentication = () =>{
         } 
     
     }
-    
+    //Sair ou logout 
+    const logout = () => {
+        
+        checkIfIsCancelled() 
+
+        //chamo a função signout e passo a autenticação nela
+        signOut(auth)
+    }
+
+
+
     //Adicionar o use Effect como true quando cancelo
     useEffect(() =>{
         return () => setCancelled(true)
@@ -77,6 +88,7 @@ export const useAuthentication = () =>{
         auth,
         createUser,
         error,
-        loading
+        loading,
+        logout,
     }
 }

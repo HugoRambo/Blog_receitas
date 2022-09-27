@@ -10,6 +10,7 @@ import {  useAuthValue  } from"../context/AuthContenxt"
 const Navbar = () => {
   //Pego usuário que vem 
   const { user} = useAuthValue()
+  const {logout} =useAuthentication()
 
   //Links de logar ou criar, não fazem sentido caso usuário já esteja logado. 
   return (
@@ -68,6 +69,11 @@ const Navbar = () => {
             Sobre
             </NavLink>
           </li>
+          {user && (
+            <li>
+            <button onClick={logout}>Sair</button>
+          </li>
+          )}
       </ul>
   </nav>
   
