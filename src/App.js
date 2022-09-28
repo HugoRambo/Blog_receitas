@@ -51,23 +51,39 @@ function App() {
 
   return (
     <div className="App">
-      <AuthProvider value={{user}}>
-      <BrowserRouter>
-      <Navbar/>
-        <div className='container'>
+      <AuthProvider value={{ user }}>
+        <BrowserRouter>
+          <Navbar />
+          <div className="container">
             <Routes>
-              <Route path='/' element={<Home/>}></Route>
-              <Route path= '/about' element={<About/>}></Route>
-              {/*uso uma condicional para testar se usuário existe, caso não tenha, mando para tela inicial */ }
-              <Route path= '/login' element={!user ? <Login/>: <Navigate to="/"/> }></Route>
-              <Route path= '/register' element={!user ? <Register/>: <Navigate to="/"/> }></Route>
-              <Route  path= '/post/create' element={user ? <CreatePost/>: <Navigate to="login"/>}></Route>
-              <Route path= 'dashboard' element={user ? <Dashboard/>: <Navigate to="login"/>}></Route>
-            
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route
+                path="/posts/create"
+                element={user ? <CreatePost /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/posts/edit/:id"
+                element={""}
+              />
+              <Route path="/posts/:id" element={""} />
+              <Route path="/search" element={""} />
+              <Route
+                path="/login"
+                element={!user ? <Login /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/register"
+                element={!user ? <Register /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/dashboard"
+                element={user ? <Dashboard /> : <Navigate to="/login" />}
+              />
             </Routes>
-        </div>
-        <Footer/>
-      </BrowserRouter>
+          </div>
+          <Footer />
+        </BrowserRouter>
       </AuthProvider>
       
     </div>
