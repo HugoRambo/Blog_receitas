@@ -28,8 +28,9 @@ const CreatePost = () => {
     } catch (error) {
       setFormError("A imagem precisa ser uma URL.");
     }
-
+    //Falta criar um arquivo que faz update de imagem. 
     // create tags e array
+    //Convrto tudo os arrays sem espaço e maiusculo
     const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase());
 
     // checar todos os valores
@@ -59,7 +60,7 @@ const CreatePost = () => {
       createdBy: user.displayName,
     });
 
-    // redirect to home page
+    // regirencionando o usuário para algum lugar
     navigate("/");
   };
 
