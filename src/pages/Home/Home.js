@@ -14,8 +14,14 @@ import { useState } from "react";
 const Home = () => {
   const [query, setQuery] = useState("")
   const [posts] =useState([])
+  
+  const navigate = useNavigate()
+  
   const handleSubmit = (e) => {
     e.preventDefault()
+    if(query){
+      return navigate(`/search?q=${query}`)
+    }
   }
 
   return (
