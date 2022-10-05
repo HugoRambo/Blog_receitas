@@ -1,13 +1,15 @@
 import {    useState, useEffect } from "react"
 //Tras do DB que criamos
 import {    db  } from "../firebase/config"
-import {collection, query, 
+import Search from "../pages/Search/Search"
+import {collection, 
+    query, 
     orderBy, 
     onSnapshot, 
     where, 
     querySnapshot} from 'firebase/firestore'
 
-    import { async } from "@firebase/util"
+
 //Collection definir a coleção
 //query pegar os dados
 //orderby  ondernar as telas
@@ -28,19 +30,21 @@ export const useFetchDocuments =    (docCollection, search = null, uid = null)=>
             if(cancelled)return
             //Carregando os dados
             setLoading(true)
-            const collectionRef = await collection()
+            const collectionRef = await collection(db, docCollection)
             //Passo o banco de dados e a condição que vem por ele 
-            
-            
+    
             //vou tratar erro de busca
-            try{
-                
-                let q
+            try {
+            let q;
                 //Busca e dashboard]
-                if(search){
-                    q = await query(collectionRef, where('tags', "array-contains", search), 
-                    orderBy("createdAt", "desc") )}
-                else{
+                if (search) {
+                    q = await query(
+                      collectionRef,
+                      where("tagsArray", "array-contains", search),
+                      orderBy("createdAt", "desc")
+                    )
+                }
+                    else{
                     q = await query(collectionRef, orderBy('createdAt', 'desc'))}
                 }
                 //await para maperar meus dados, quando alterar algo, ele atualiza
@@ -57,8 +61,9 @@ export const useFetchDocuments =    (docCollection, search = null, uid = null)=>
             } catch (error){
                 console.log(error)
                 setError(error.message)
-                setLoading(false)
+                
             }   
+            
         }
         loadData()
     }, [docCollection, search, uid, cancelled])

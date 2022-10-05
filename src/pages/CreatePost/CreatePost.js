@@ -3,7 +3,7 @@ import styles from "./CreatePost.module.css";
 import { useState } from "react";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { useNavigate } from "react-router-dom";
-import { useAuthValue } from "../../context/AuthContenxt";
+import { useAuthValue } from "../../contexts/AuthContext";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -22,18 +22,17 @@ const CreatePost = () => {
     e.preventDefault();
     setFormError("");
 
-    // validando imagem da URL
+    // validate image
     try {
       new URL(image);
     } catch (error) {
       setFormError("A imagem precisa ser uma URL.");
     }
-    //Falta criar um arquivo que faz update de imagem. 
-    // create tags e array
-    //Convrto tudo os arrays sem espaço e maiusculo
+
+    // create tags array
     const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase());
 
-    // checar todos os valores
+    // check values
     if (!title || !image || !tags || !body) {
       setFormError("Por favor, preencha todos os campos!");
     }
@@ -55,12 +54,12 @@ const CreatePost = () => {
       title,
       image,
       body,
-      tagsArray,
+      tags: tagsArray,
       uid: user.uid,
       createdBy: user.displayName,
     });
 
-    // regirencionando o usuário para algum lugar
+    // redirect to home page
     navigate("/");
   };
 
